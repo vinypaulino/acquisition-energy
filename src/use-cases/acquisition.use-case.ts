@@ -1,11 +1,12 @@
-import { TariffModality } from '../../src/domain/tariff-modality';
-import { ConsumptionClasses } from '../../src/domain/consumption-classes';
-import { MinConsumption } from '../../src/domain/min-consumption';
 import { Injectable } from '@nestjs/common';
+import { ConsumptionClasses } from '../domain/consumption-classes';
+import { TariffModality } from '../domain/tariff-modality';
+import { MinConsumption } from '../domain/min-consumption';
+import { CreateAcquisitionDto } from 'src/dto/create-acquisition.dto';
 
 @Injectable()
 export class Acquisition {
-  private reasonsOfIneligibility: Array<string> = [];
+  private reasonsOfIneligibility: Array<string>;
 
   constructor(
     private verifierConsumptionClasses: ConsumptionClasses,
@@ -13,32 +14,30 @@ export class Acquisition {
     private minConsumption: MinConsumption,
   ) {}
 
-  verifyEligibility(accountOfCustomer: {
-    numeroDoDocumento: string;
-    tipoDeConexao: string;
-    classeDeConsumo: string;
-    modalidadeTarifaria: string;
-    historicoDeConsumo: number[];
-  }) {
-    const result: string = this.verifierConsumptionClasses.verifyEligibility(
-      accountOfCustomer.classeDeConsumo,
-    );
+  verifyEligibility({
+    classeDeConsumo,
+    historicoDeConsumo,
+    modalidadeTarifaria,
+    tipoDeConexao,
+  }: CreateAcquisitionDto) {
+    this.reasonsOfIneligibility = [];
+    const result: string =
+      this.verifierConsumptionClasses.verifyEligibility(classeDeConsumo);
 
     if (result.length > 0) {
       this.reasonsOfIneligibility.push(result);
     }
 
-    const tariffResult: string = this.tariffModality.verifyEligibility(
-      accountOfCustomer.modalidadeTarifaria,
-    );
+    const tariffResult: string =
+      this.tariffModality.verifyEligibility(modalidadeTarifaria);
 
     if (tariffResult.length > 0) {
       this.reasonsOfIneligibility.push(tariffResult);
     }
 
     const minConsumptionResult: string = this.minConsumption.verifyEligibility(
-      accountOfCustomer.tipoDeConexao,
-      accountOfCustomer.historicoDeConsumo,
+      tipoDeConexao,
+      historicoDeConsumo,
     );
 
     if (minConsumptionResult.length > 0) {
@@ -53,7 +52,7 @@ export class Acquisition {
     }
     return {
       elegivel: true,
-      economiaAnualDeCO2: calculateCO2(accountOfCustomer.historicoDeConsumo),
+      economiaAnualDeCO2: calculateCO2(historicoDeConsumo),
     };
   }
 }
