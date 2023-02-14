@@ -25,7 +25,7 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
+    it('should return eligible false and reasons of ineligible', () => {
       expect(
         acquisitionController.verifyEligibility({
           numeroDoDocumento: '14041737706',
