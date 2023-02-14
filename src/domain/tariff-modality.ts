@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
+const MESSAGE_OF_TARIFF_MODALITY = 'Modalidade tarifária não aceita';
 @Injectable()
 export class TariffModality {
   private eligibleClasses: string[];
@@ -13,6 +14,6 @@ export class TariffModality {
       return '';
     }
 
-    return 'Modalidade tarifária não aceita';
+    return MESSAGE_OF_TARIFF_MODALITY;
   }
 }

@@ -3,15 +3,17 @@ import { ConsumptionClasses } from '../domain/consumption-classes';
 import { TariffModality } from '../domain/tariff-modality';
 import { MinConsumption } from '../domain/min-consumption';
 import { CreateAcquisitionDto } from 'src/dto/create-acquisition.dto';
-
+import { AcquisitionResponseDTO } from 'src/dto/acquisition-response.dto';
+const CO2 = 84;
+const kWh = 1000;
 @Injectable()
 export class Acquisition {
   private reasonsOfIneligibility: Array<string>;
 
   constructor(
-    private verifierConsumptionClasses: ConsumptionClasses,
-    private tariffModality: TariffModality,
-    private minConsumption: MinConsumption,
+    private readonly verifierConsumptionClasses: ConsumptionClasses,
+    private readonly tariffModality: TariffModality,
+    private readonly minConsumption: MinConsumption,
   ) {}
 
   verifyEligibility({
@@ -19,7 +21,7 @@ export class Acquisition {
     historicoDeConsumo,
     modalidadeTarifaria,
     tipoDeConexao,
-  }: CreateAcquisitionDto) {
+  }: CreateAcquisitionDto): AcquisitionResponseDTO {
     this.reasonsOfIneligibility = [];
     const result: string =
       this.verifierConsumptionClasses.verifyEligibility(classeDeConsumo);
@@ -56,7 +58,8 @@ export class Acquisition {
     };
   }
 }
-const calculateCO2 = (history: number[]) => {
+
+const calculateCO2 = (history: number[]): number => {
   const consumptionSum = history.reduce((acc, current) => acc + current);
-  return Number(((consumptionSum * 84) / 1000).toFixed(2));
+  return Number(((consumptionSum * CO2) / kWh).toFixed(2));
 };

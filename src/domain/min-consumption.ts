@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-const MESSAGE_OF_RETURN = 'Consumo muito baixo para tipo de conexão';
+const MESSAGE_OF_MIN_CONSUMPTION = 'Consumo muito baixo para tipo de conexão';
 
 @Injectable()
 export class MinConsumption {
@@ -22,6 +22,6 @@ export class MinConsumption {
     ) {
       return '';
     }
-    return MESSAGE_OF_RETURN;
+    return MESSAGE_OF_MIN_CONSUMPTION;
   }
 }

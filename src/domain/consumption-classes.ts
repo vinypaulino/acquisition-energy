@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
+const MESSAGE_CONSUMPTION_CLASSES = 'Classe de consumo não aceita';
 @Injectable()
 export class ConsumptionClasses {
   private eligibleClasses: string[];
@@ -10,6 +11,6 @@ export class ConsumptionClasses {
     if (this.eligibleClasses.includes(clientClass.toLowerCase())) {
       return '';
     }
-    return 'Classe de consumo não aceita';
+    return MESSAGE_CONSUMPTION_CLASSES;
   }
 }
