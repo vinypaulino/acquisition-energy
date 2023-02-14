@@ -1,4 +1,4 @@
-import MinConsumption from './min-consumption';
+import { MinConsumption } from './min-consumption';
 describe('minConsumptionTests', () => {
   it('shouldReturnEmptyStringWhenIsEligible', () => {
     const historicoDeConsumo: number[] = [

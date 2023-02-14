@@ -1,4 +1,7 @@
-export default class ConsumptionClasses {
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class ConsumptionClasses {
   private eligibleClasses: string[];
   constructor() {
     this.eligibleClasses = ['comercial', 'residencial', 'industrial'];

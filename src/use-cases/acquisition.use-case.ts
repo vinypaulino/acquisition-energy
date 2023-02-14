@@ -1,18 +1,17 @@
-import TariffModality from '../../src/domain/tariff-modality';
-import ConsumptionClasses from '../../src/domain/consumption-classes';
-import MinConsumption from '../../src/domain/min-consumption';
+import { TariffModality } from '../../src/domain/tariff-modality';
+import { ConsumptionClasses } from '../../src/domain/consumption-classes';
+import { MinConsumption } from '../../src/domain/min-consumption';
+import { Injectable } from '@nestjs/common';
 
-export default class Acquisition {
-  private verifierConsumptionClasses: ConsumptionClasses;
+@Injectable()
+export class Acquisition {
   private reasonsOfIneligibility: Array<string> = [];
-  private tariffModality: TariffModality;
-  private minConsumption: MinConsumption;
 
-  constructor() {
-    this.verifierConsumptionClasses = new ConsumptionClasses();
-    this.tariffModality = new TariffModality();
-    this.minConsumption = new MinConsumption();
-  }
+  constructor(
+    private verifierConsumptionClasses: ConsumptionClasses,
+    private tariffModality: TariffModality,
+    private minConsumption: MinConsumption,
+  ) {}
 
   verifyEligibility(accountOfCustomer: {
     numeroDoDocumento: string;

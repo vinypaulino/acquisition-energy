@@ -1,4 +1,7 @@
-export default class TariffModality {
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class TariffModality {
   private eligibleClasses: string[];
 
   constructor() {

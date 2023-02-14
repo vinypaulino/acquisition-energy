@@ -1,4 +1,4 @@
-import TariffModality from './tariff-modality';
+import { TariffModality } from './tariff-modality';
 
 describe('tariffModalityTests', () => {
   it('shouldReturnEmptyStringWhenIsEligible', () => {

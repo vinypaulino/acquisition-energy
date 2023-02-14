@@ -1,6 +1,9 @@
+import { Injectable } from '@nestjs/common';
+
 const MESSAGE_OF_RETURN = 'Consumo muito baixo para tipo de conexão';
 
-export default class MinConsumption {
+@Injectable()
+export class MinConsumption {
   private minConsumption: Record<string, number> = {
     monofasico: 400,
     bifasico: 500,

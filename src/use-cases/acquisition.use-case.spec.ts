@@ -1,6 +1,27 @@
-import Acquisition from './acquisition.use-case';
+import { ConsumptionClasses } from '../../src/domain/consumption-classes';
+import { MinConsumption } from '../../src/domain/min-consumption';
+import { TariffModality } from '../../src/domain/tariff-modality';
+import { Acquisition } from './acquisition.use-case';
 
 describe('acquisitionServiceTests', () => {
+  let consumptionClasses: ConsumptionClasses;
+  let tariffModality: TariffModality;
+  let minConsumption: MinConsumption;
+  let acquisition: Acquisition;
+
+  beforeAll(() => {
+    consumptionClasses = new ConsumptionClasses();
+    tariffModality = new TariffModality();
+    minConsumption = new MinConsumption();
+  });
+
+  beforeEach(() => {
+    acquisition = new Acquisition(
+      consumptionClasses,
+      tariffModality,
+      minConsumption,
+    );
+  });
   it('should return eligible false and reasons of ineligible', () => {
     const notEligibleAccount = {
       numeroDoDocumento: '14041737706',
@@ -20,7 +41,6 @@ describe('acquisitionServiceTests', () => {
         4160, // 9 meses atras
       ],
     };
-    const acquisition = new Acquisition();
 
     const returned = acquisition.verifyEligibility(notEligibleAccount);
     expect(returned).toEqual({
@@ -54,7 +74,6 @@ describe('acquisitionServiceTests', () => {
       ],
     };
 
-    const acquisition = new Acquisition();
     const result = acquisition.verifyEligibility(eligibleAccount);
 
     expect(result).toEqual({
