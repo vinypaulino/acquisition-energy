@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { ConsumptionClasses } from '../domain/consumption-classes';
 import { TariffModality } from '../domain/tariff-modality';
 import { MinConsumption } from '../domain/min-consumption';
+import { calculateCO2 } from '../domain/co2';
 import { CreateAcquisitionDto } from 'src/dto/create-acquisition.dto';
 import { AcquisitionResponseDTO } from 'src/dto/acquisition-response.dto';
-const CO2 = 84;
-const kWh = 1000;
+
 @Injectable()
 export class Acquisition {
   private reasonsOfIneligibility: Array<string>;
@@ -58,8 +58,3 @@ export class Acquisition {
     };
   }
 }
-
-const calculateCO2 = (history: number[]): number => {
-  const consumptionSum = history.reduce((acc, current) => acc + current);
-  return Number(((consumptionSum * CO2) / kWh).toFixed(2));
-};
