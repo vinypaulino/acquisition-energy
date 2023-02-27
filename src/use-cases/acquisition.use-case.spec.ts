@@ -81,4 +81,25 @@ describe('acquisitionServiceTests', () => {
       economiaAnualDeCO2: 5553.24,
     });
   });
+
+  it('should return eligible true and calc of co2 when consumptionhistory is smallest than 12 months ', () => {
+    const eligibleAccount = {
+      numeroDoDocumento: '14041737706',
+      tipoDeConexao: 'bifasico',
+      classeDeConsumo: 'comercial',
+      modalidadeTarifaria: 'convencional',
+      historicoDeConsumo: [
+        3878, // mes atual
+        9760, // mes anterior
+        5976, // 2 meses atras
+      ],
+    };
+
+    const result = acquisition.verifyEligibility(eligibleAccount);
+
+    expect(result).toEqual({
+      elegivel: true,
+      economiaAnualDeCO2: 5553.24,
+    });
+  });
 });
